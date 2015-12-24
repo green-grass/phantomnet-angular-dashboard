@@ -1,0 +1,8 @@
+﻿<div>
+    <div class="text-info" ng-show="emptyList">
+        {{emptyListMessage}}
+    </div>
+
+    <form class="m-t m-b" ng-submit="submit()" ng-transclude></form>
+    <hr ng-hide="emptyList" />
+</div>

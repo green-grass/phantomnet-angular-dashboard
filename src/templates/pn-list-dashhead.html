@@ -1,0 +1,16 @@
+﻿<div class="dashhead">
+    <div class="dashhead-titles">
+        <h6 class="dashhead-subtitle">{{subtitle}}</h6>
+        <h2 class="dashhead-title text-uppercase">{{title}}</h2>
+    </div>
+    <div class="dashhead-toolbar" ng-hide="emptyList">
+        <div class="input-with-icon dashhead-toolbar-item">
+            <input type="text" class="form-control input-block" placeholder="{{searchPlaceholder}}" ng-model="searchTerms" focus-if>
+            <span class="icon icon-magnifying-glass"></span>
+        </div>
+        <span class="dashhead-toolbar-divider hidden-xs"></span>
+        <button type="button" class="btn btn-primary-outline" ng-click="toggleAddForm()">
+            <span class="icon icon-add-to-list"></span>
+        </button>
+    </div>
+</div>

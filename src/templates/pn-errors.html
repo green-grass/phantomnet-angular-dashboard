@@ -1,0 +1,15 @@
+﻿<div ng-class="'navbar-fixed-' + (position || 'bottom')" class="navbar-fixed-bottom" ng-show="message || errors.length > 0">
+    <div class="container container-fluid-spacious">
+        <div class="alert alert-danger alert-dismissible text-center" role="alert">
+            <button type="button" class="close" aria-label="{{closeLabel}}" ng-click="clear()"><span aria-hidden="true">&times;</span></button>
+            <p ng-show="message">
+                {{message}}
+            </p>
+            <ul ng-show="errors.length > 0" class="list-unstyled">
+                <li ng-repeat="error in errors">
+                    {{error.Description}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
