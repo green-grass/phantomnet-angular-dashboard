@@ -2,9 +2,24 @@
 
     'use strict';
 
-    var DEFAULT_EVENT_NAMESPACE = '.deleteconfirmation';
+    var DEFAULT_EVENT_NAMESPACE = '.dashboardshared';
 
-    var module = angular.module('pnDeleteConfirmation', []);
+    var module = angular.module('pnDashboardShared', []);
+
+    module.directive('pnErrors', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                position: '@',
+                closeLable: '@',
+                message: '=',
+                errors: '=',
+                clear: '&onClear'
+            },
+            templateUrl: '/assets/templates/pn-errors.html'
+        };
+    });
 
     module.directive('pnDeleteConfirmation', function () {
         var link = function (scope, element, attrs) {

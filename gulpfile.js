@@ -2,7 +2,7 @@ var gulp = require("gulp"),
     rimraf = require("rimraf");
 
 var paths = {
-    src: ["./src/**/*.js", "./src/**/*.html"],
+    src: "./src/**/*.*",
     dist: "./dist"
 };
 
