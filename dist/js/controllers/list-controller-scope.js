@@ -10,6 +10,7 @@
         locale: {},
         models: [],
         search: '',
+        searchFilter: '',
         showAddForm: false,
         focusAddFormInput: true,
         newModel: {},
@@ -23,6 +24,13 @@
             this._factory = factory;
 
             this._super(scope);
+
+            this._updateSearchFilter(scope.search);
+
+            scope.$watch(
+                function (scope) { return scope.search; },
+                function (newValue, oldValue) { scope._updateSearchFilter(newValue); }
+                );
 
             scope._resetNewModel();
             scope._loadModels();
@@ -111,20 +119,24 @@
             this.deleteConfirmingModel = {};
         },
 
-        _loadModels: function () {
-            var that = this;
-            this._factory.query()
-                         .$promise.then(function (models) {
-                             that.models = models;
-                             if (models.length === 0) {
-                                 that.showAddForm = true;
-                             }
-                         });
-        },
-
         _displayErrors: function (message, respond) {
             this.errorMessage = message;
             this.errors = respond.Result.Errors;
+        },
+
+        _loadModels: function () {
+            var that = this;
+            this._factory.query()
+                .$promise.then(function (models) {
+                    that.models = models;
+                    if (models.length === 0) {
+                        that.showAddForm = true;
+                    }
+                });
+        },
+
+        _updateSearchFilter: function (value) {
+            this.searchFilter = value;
         },
 
         _resetNewModel: function () {

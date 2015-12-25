@@ -35,6 +35,21 @@
         };
     });
 
+    module.directive('pnSearchResultCount', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                count: '&',
+                filteredCount: '&',
+                zeroMessage: '@',
+                singleMessage: '@',
+                pluralMessage: '&'
+            },
+            templateUrl: '/assets/templates/pn-search-result-count.html'
+        };
+    });
+
     module.directive('pnFlextableTextInput', function () {
         return {
             restrict: 'EA',

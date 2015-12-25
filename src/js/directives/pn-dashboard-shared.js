@@ -6,6 +6,19 @@
 
     var module = angular.module('pnDashboardShared', []);
 
+    module.directive('pnCheckboxInput', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                inline: '=',
+                label: '@',
+                ngModel: '='
+            },
+            templateUrl: '/assets/templates/pn-checkbox-input.html'
+        };
+    });
+
     module.directive('pnErrors', function () {
         return {
             restrict: 'EA',
