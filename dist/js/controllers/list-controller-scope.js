@@ -125,12 +125,14 @@
         },
 
         _loadModels: function () {
+            this.focusAddFormInput = false;
             var that = this;
             this._factory.query()
                 .$promise.then(function (models) {
                     that.models = models;
                     if (models.length === 0) {
                         that.showAddForm = true;
+                        that.focusAddFormInput = true;
                     }
                 });
         },
