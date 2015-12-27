@@ -19,6 +19,16 @@
         };
     });
 
+    module.directive('pnLoading', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            transclude: true,
+            scope: {},
+            templateUrl: '/assets/templates/pn-loading.html'
+        };
+    });
+
     module.directive('pnErrors', function () {
         return {
             restrict: 'EA',

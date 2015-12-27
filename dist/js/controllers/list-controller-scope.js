@@ -6,9 +6,15 @@
 
     PN.AngularDashboard.List.ListControllerScope = PN.AngularDashboard.ControllerScope.extend({
         _factory: null,
+        _$filter: null,
 
         locale: {},
+        errorMessage: '',
+        errors: [],
+        showLoading: false,
         models: [],
+        totalCount: 0,
+        filteredCount: 0,
         search: '',
         searchFilter: '',
         showAddForm: false,
@@ -17,23 +23,24 @@
         editModel: {},
         deleteConfirmationModalAccessor: {},
         deleteConfirmingModel: {},
-        errorMessage: '',
-        errors: [],
 
-        init: function (scope, factory) {
+        init: function ($scope, factory, $filter) {
             this._factory = factory;
+            this._$filter = $filter;
 
-            this._super(scope);
+            this._super($scope);
 
-            this._updateSearchFilter(scope.search);
+            $scope._performSearch($scope.search);
 
-            scope.$watch(
-                function (scope) { return scope.search; },
-                function (newValue, oldValue) { scope._updateSearchFilter(newValue); }
-                );
+            $scope.$watch('search', function (newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    $scope._performSearch(newValue);
+                }
+            });
 
-            scope._resetNewModel();
-            scope._loadModels();
+            $scope._resetNewModel();
+            $scope.showLoading = true;
+            $scope._loadModels();
         },
 
         __add: function (model) {
@@ -126,19 +133,31 @@
 
         _loadModels: function () {
             this.focusAddFormInput = false;
-            var that = this;
-            this._factory.query()
-                .$promise.then(function (models) {
-                    that.models = models;
-                    if (models.length === 0) {
-                        that.showAddForm = true;
-                        that.focusAddFormInput = true;
-                    }
-                });
+
+            var that = this,
+                token = new Date().valueOf().toString();
+
+            this._factory.latestToken = token;
+            this._factory.query({ token: token }, function (models, responseHeaders) {
+                var returnedToken = responseHeaders('token');
+                if (returnedToken !== that._factory.latestToken) {
+                    return;
+                }
+
+                that.showLoading = false;
+                that.models = models;
+                that.totalCount = models.length;
+                that.filteredCount = that._$filter('search')(that.models, that.searchFilter).length;
+                if (that.totalCount === 0) {
+                    that.showAddForm = true;
+                    that.focusAddFormInput = true;
+                }
+            });
         },
 
-        _updateSearchFilter: function (value) {
-            this.searchFilter = value;
+        _performSearch: function (search) {
+            this.searchFilter = search;
+            this.filteredCount = this._$filter('search')(this.models, this.searchFilter).length;
         },
 
         _resetNewModel: function () {
