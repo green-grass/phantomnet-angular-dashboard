@@ -16,7 +16,18 @@
                 emptyList: '=',
                 toggleAddForm: '&onToggleAddForm'
             },
-            templateUrl: '/assets/templates/pn-list-dashhead.html'
+            templateUrl: '/assets/templates/pn-list-dashhead.html',
+            link: function (scope, element, attrs) {
+                scope.onSearchKeypress = function (e) {
+                    switch (e.keyCode) {
+                        case 27:
+                            scope.searchTerms = '';
+                            break;
+                        default:
+                            break;
+                    }
+                };
+            }
         };
     });
 
@@ -47,6 +58,68 @@
                 pluralMessage: '&'
             },
             templateUrl: '/assets/templates/pn-search-result-count.html'
+        };
+    });
+
+    module.directive('pnPagedSearchResultCount', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                count: '&',
+                filteredCount: '&',
+                zeroMessage: '@',
+                singleMessage: '@',
+                pluralMessage: '&',
+                pageCount: '&',
+                pageNumber: '&',
+                currentPageMessage: '&'
+            },
+            templateUrl: '/assets/templates/pn-paged-search-result-count.html'
+        };
+    });
+
+    module.directive('pnDropdownPagination', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                pageCount: '=',
+                pageNumber: '='
+            },
+            templateUrl: '/assets/templates/pn-dropdown-pagination.html'
+        };
+    });
+
+    module.directive('pnButtonsPagination', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                pageCount: '=',
+                pageNumber: '=',
+                maxPageLength: '='
+            },
+            templateUrl: '/assets/templates/pn-buttons-pagination.html',
+            link: function (scope) {
+                scope.goToPage = function (pageNumber) {
+                    scope.pageNumber = pageNumber;
+                };
+            }
+        };
+    });
+
+    module.directive('pnCombinedPagination', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                pageCount: '=',
+                pageNumber: '=',
+                maxPageLength: '=',
+                showPageJumper: '='
+            },
+            templateUrl: '/assets/templates/pn-combined-pagination.html'
         };
     });
 

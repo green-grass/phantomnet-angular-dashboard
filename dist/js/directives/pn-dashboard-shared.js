@@ -4,7 +4,7 @@
 
     var DEFAULT_EVENT_NAMESPACE = '.dashboardshared';
 
-    var module = angular.module('pnDashboardShared', []);
+    var module = angular.module('pnDashboardShared');
 
     module.directive('pnCheckboxInput', function () {
         return {

@@ -4,7 +4,7 @@
 
     var DEFAULT_EVENT_NAMESPACE = '.dashboardshared';
 
-    var module = angular.module('pnDashboardShared', []);
+    var module = angular.module('pnDashboardShared');
 
     module.directive('pnCheckboxInput', function () {
         return {
@@ -16,6 +16,16 @@
                 ngModel: '='
             },
             templateUrl: '/assets/templates/pn-checkbox-input.html'
+        };
+    });
+
+    module.directive('pnLoading', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            transclude: true,
+            scope: {},
+            templateUrl: '/assets/templates/pn-loading.html'
         };
     });
 
