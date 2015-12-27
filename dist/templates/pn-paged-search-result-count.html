@@ -1,0 +1,16 @@
+<div class="clearfix">
+    <div class="pull-left" ng-show="pageCount() > 1">
+        <p>
+            {{currentPageMessage({pageNumber: pageNumber(), pageCount: pageCount()})}}
+        </p>
+    </div>
+    <div pn-search-result-count
+         class="pull-right"
+         ng-show="count() > 0"
+         count="count()"
+         filtered-count="filteredCount()"
+         zero-message="{{zeroMessage}}"
+         single-message="{{singleMessage}}"
+         plural-message="pluralMessage({count: count})">
+    </div>
+</div>

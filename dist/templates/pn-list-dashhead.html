@@ -5,7 +5,7 @@
     </div>
     <div class="dashhead-toolbar" ng-hide="emptyList">
         <div class="input-with-icon dashhead-toolbar-item">
-            <input type="text" class="form-control input-block" placeholder="{{searchPlaceholder}}" ng-model="searchTerms" focus-if>
+            <input type="text" class="form-control input-block" placeholder="{{searchPlaceholder}}" ng-model="searchTerms" ng-keypress="onSearchKeypress($event)" focus-if>
             <span class="icon icon-magnifying-glass"></span>
         </div>
         <span class="dashhead-toolbar-divider hidden-xs"></span>
