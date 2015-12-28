@@ -11,7 +11,7 @@
         pageNumber: 1,
         pageCount: 1,
         maxPageLength: 11,
-        showPageJumper: false,
+        showPaginationUtilities: false,
         performSearchTimeoutPromise: null,
 
         init: function ($scope, factory, $filter, $timeout) {
@@ -19,6 +19,14 @@
             this._super($scope, factory, $filter);
 
             $scope.$watch('pageNumber', function (newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    $scope.showLoading = true;
+                    $scope._loadModels();
+                    window.scrollTo(0, 0);
+                }
+            });
+
+            $scope.$watch('pageSize', function (newValue, oldValue) {
                 if (newValue !== oldValue) {
                     $scope.showLoading = true;
                     $scope._loadModels();

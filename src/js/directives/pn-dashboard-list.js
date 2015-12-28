@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
 
     'use strict';
 
@@ -13,7 +13,7 @@
                 subtitle: '@',
                 searchPlaceholder: '@',
                 searchTerms: '=',
-                emptyList: '=',
+                emptyList: '&',
                 toggleAddForm: '&onToggleAddForm'
             },
             templateUrl: '/assets/templates/pn-list-dashhead.html',
@@ -37,8 +37,7 @@
             replace: true,
             transclude: true,
             scope: {
-                hidden: '=pnHidden',
-                emptyList: '=',
+                emptyList: '&',
                 emptyListMessage: '@',
                 submit: '&onSubmit'
             },
@@ -71,11 +70,16 @@
                 zeroMessage: '@',
                 singleMessage: '@',
                 pluralMessage: '&',
-                pageCount: '&',
+                pageSize: '=',
                 pageNumber: '&',
-                currentPageMessage: '&'
+                pageCount: '&',
+                currentPageMessage: '&',
+                rightAlign: '&'
             },
-            templateUrl: '/assets/templates/pn-paged-search-result-count.html'
+            templateUrl: '/assets/templates/pn-paged-search-result-count.html',
+            link: function (scope) {
+                scope.showPaginationUtilities = false;
+            }
         };
     });
 
@@ -84,7 +88,7 @@
             restrict: 'EA',
             replace: true,
             scope: {
-                pageCount: '=',
+                pageCount: '&',
                 pageNumber: '='
             },
             templateUrl: '/assets/templates/pn-dropdown-pagination.html'
@@ -96,9 +100,9 @@
             restrict: 'EA',
             replace: true,
             scope: {
-                pageCount: '=',
+                pageCount: '&',
                 pageNumber: '=',
-                maxPageLength: '='
+                maxPageLength: '&'
             },
             templateUrl: '/assets/templates/pn-buttons-pagination.html',
             link: function (scope) {
@@ -114,12 +118,14 @@
             restrict: 'EA',
             replace: true,
             scope: {
-                pageCount: '=',
+                pageCount: '&',
                 pageNumber: '=',
-                maxPageLength: '=',
-                showPageJumper: '='
+                maxPageLength: '&'
             },
-            templateUrl: '/assets/templates/pn-combined-pagination.html'
+            templateUrl: '/assets/templates/pn-combined-pagination.html',
+            link: function (scope) {
+                scope.showPageJumper = false;
+            }
         };
     });
 
@@ -165,7 +171,7 @@
             restrict: 'EA',
             replace: true,
             scope: {
-                value: '='
+                value: '&'
             },
             templateUrl: '/assets/templates/pn-table-bool-display.html'
         };
