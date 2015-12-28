@@ -1,11 +1,11 @@
-<div ng-show="count() > 0">
-    <p ng-show="filteredCount() > 1">
+<div class="m-b" ng-show="count() > 0">
+    <span ng-show="filteredCount() > 1">
         {{pluralMessage({count: filteredCount()})}}
-    </p>
-    <p ng-show="filteredCount() === 1">
+    </span>
+    <span ng-show="filteredCount() === 1">
         {{singleMessage}}
-    </p>
-    <p ng-hide="filteredCount() > 0">
+    </span>
+    <span ng-hide="filteredCount() > 0">
         {{zeroMessage}}
-    </p>
+    </span>
 </div>

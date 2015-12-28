@@ -11,7 +11,7 @@
             restrict: 'EA',
             replace: true,
             scope: {
-                inline: '=',
+                inline: '&',
                 label: '@',
                 ngModel: '='
             },
@@ -36,8 +36,8 @@
             scope: {
                 position: '@',
                 closeLable: '@',
-                message: '=',
-                errors: '=',
+                message: '&',
+                errors: '&',
                 clear: '&onClear'
             },
             templateUrl: '/assets/templates/pn-errors.html'
@@ -51,8 +51,9 @@
                 scope.close();
             });
 
-            if (scope.accessor) {
-                scope.accessor.show = function () {
+            var accessor = scope.accessor();
+            if (accessor) {
+                accessor.show = function () {
                     modal.modal('show');
                 };
             }
@@ -74,7 +75,7 @@
             replace: true,
             transclude: true,
             scope: {
-                accessor: '=',
+                accessor: '&',
                 id: '@',
                 closeLabel: '@',
                 title: '@',
