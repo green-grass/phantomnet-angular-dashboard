@@ -1,20 +1,21 @@
 {
   "name": "phantomnet-angular-dashboard",
-  "version": "1.0.0-beta12",
-  "homepage": "https://github.com/green-grass/phantomnet-angular-dashboard",
+  "version": "1.0.0-beta13",
+  "description": "AngularJS components for Bootstrap Dashboard theme",
+  "main": "./dist/phantomnet-angular-dashboard.js",
   "authors": [
     "Minh Nguyen <mnguyen284@gmail.com>"
   ],
-  "description": "AngularJS components for Bootstrap Dashboard theme",
-  "main": "src/phantomnet-angular-dashboard.js",
-  "moduleType": [
-    "amd",
-    "es6",
-    "globals",
-    "node",
-    "yui"
-  ],
   "license": "MIT",
+  "keywords": [
+    "AngularJS",
+    "Bootstrap",
+    "Dashboard"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "homepage": "https://github.com/green-grass/phantomnet-angular-dashboard",
   "ignore": [
     "**/.*",
     "node_modules",
