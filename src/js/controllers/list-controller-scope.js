@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
 
     'use strict';
 
@@ -23,6 +23,8 @@
         editModel: {},
         deleteConfirmationModalAccessor: {},
         deleteConfirmingModel: {},
+        sortExpression: null,
+        sortReverse: false,
 
         init: function ($scope, factory, $filter) {
             this._factory = factory;
@@ -30,7 +32,9 @@
 
             this._super($scope);
 
-            $scope._performSearch($scope.search);
+            if ($scope.search) {
+                $scope._performSearch($scope.search);
+            }
 
             $scope.$watch('search', function (newValue, oldValue) {
                 if (newValue !== oldValue) {
@@ -104,6 +108,12 @@
             });
         },
 
+        __sort: function (expression, reverse) {
+            this.sortExpression = expression;
+            this.sortReverse = reverse;
+            this.models = this._$filter('orderBy')(this.models, expression, reverse);
+        },
+
         __clearErrors: function () {
             this.errorMessage = '';
             this.errors = [];
@@ -145,7 +155,7 @@
                 }
 
                 that.showLoading = false;
-                that.models = models;
+                that.models = that._$filter('orderBy')(models, that.sortExpression, that.sortReverse);
                 that.totalCount = models.length;
                 that.filteredCount = that._$filter('search')(that.models, that.searchFilter).length;
                 if (that.totalCount === 0) {

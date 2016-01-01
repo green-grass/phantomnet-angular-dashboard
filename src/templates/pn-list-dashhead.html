@@ -1,11 +1,11 @@
 <div class="dashhead">
     <div class="dashhead-titles">
         <h6 class="dashhead-subtitle">{{subtitle}}</h6>
-        <h2 class="dashhead-title text-uppercase">{{title}}</h2>
+        <h2 class="dashhead-title text-uppercase">{{pnTitle}}</h2>
     </div>
-    <div class="dashhead-toolbar" ng-hide="emptyList()">
+    <div class="dashhead-toolbar pn-animate-fade" ng-hide="emptyList()">
         <div class="input-with-icon dashhead-toolbar-item">
-            <input type="text" class="form-control input-block" placeholder="{{searchPlaceholder}}" ng-model="searchTerms" ng-keypress="onSearchKeypress($event)" focus-if>
+            <input type="text" class="form-control input-block" placeholder="{{searchPlaceholder}}" ng-model="searchTerms" ng-keypress="onSearchKeypress($event)">
             <span class="icon icon-magnifying-glass"></span>
         </div>
         <span class="dashhead-toolbar-divider hidden-xs"></span>

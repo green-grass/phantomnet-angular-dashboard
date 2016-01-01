@@ -9,7 +9,7 @@
             restrict: 'EA',
             replace: true,
             scope: {
-                title: '@',
+                pnTitle: '@',
                 subtitle: '@',
                 searchPlaceholder: '@',
                 searchTerms: '=',
@@ -65,6 +65,7 @@
             restrict: 'EA',
             replace: true,
             scope: {
+                minPageSize: '&',
                 count: '&',
                 filteredCount: '&',
                 zeroMessage: '@',
@@ -74,11 +75,40 @@
                 pageNumber: '&',
                 pageCount: '&',
                 currentPageMessage: '&',
+                pageSizeMessage: '&',
+                showAllLabel: '&',
                 rightAlign: '&'
             },
             templateUrl: '/assets/templates/pn-paged-search-result-count.html',
             link: function (scope) {
                 scope.showPaginationUtilities = false;
+                scope.minPageSizeOrDefault = scope.minPageSize() || 30;
+                scope.pageSizes = [
+                    { value: scope.minPageSizeOrDefault, text: scope.minPageSizeOrDefault.toString() },
+                    { value: 50, text: '50' },
+                    { value: 100, text: '100' },
+                    { value: 200, text: '200' },
+                    { value: 500, text: '500' },
+                    { value: 1000000, text: scope.showAllLabel() }
+                ];
+
+                scope.$watch('minPageSize()', function () {
+                    scope.minPageSizeOrDefault = scope.minPageSize() || 30;
+                    scope.pageSizes[0].value = scope.minPageSizeOrDefault;
+                    scope.pageSizes[0].text = scope.minPageSizeOrDefault.toString();
+                });
+
+                scope.$watch('showAllLabel()', function () {
+                    scope.pageSizes[scope.pageSizes.length - 1].text = scope.showAllLabel();
+                });
+
+                scope.pageSizeMessageStart = function () {
+                    return scope.pageSizeMessage().split('{pageSize}')[0];
+                };
+
+                scope.pageSizeMessageEnd = function () {
+                    return scope.pageSizeMessage().split('{pageSize}')[1];
+                };
             }
         };
     });
@@ -113,7 +143,7 @@
         };
     });
 
-    module.directive('pnCombinedPagination', function () {
+    module.directive('pnCombinedPagination', ['$animate', function ($animate) {
         return {
             restrict: 'EA',
             replace: true,
@@ -123,8 +153,66 @@
                 maxPageLength: '&'
             },
             templateUrl: '/assets/templates/pn-combined-pagination.html',
-            link: function (scope) {
+            link: function (scope, element) {
                 scope.showPageJumper = false;
+            }
+        };
+    }]);
+
+    module.directive('pnSortableColumn', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            transclude: true,
+            scope: {
+                sorted: '&',
+                reverse: '&',
+                sort: '&onSort'
+            },
+            templateUrl: '/assets/templates/pn-sortable-column.html'
+        };
+    });
+
+    module.directive('pnMultiSortableColumn', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            transclude: true,
+            scope: {
+                tableSortExpression: '&',
+                sortExpression: '&',
+                fixedSortExpression: '&',
+                sort: '&onSort'
+            },
+            templateUrl: '/assets/templates/pn-multi-sortable-column.html',
+            link: function (scope) {
+                scope.sorted = function () {
+                    try {
+                        return scope.tableSortExpression().indexOf(scope.sortExpression()) > -1 ||
+                            scope.tableSortExpression().indexOf('-' + scope.sortExpression()) > -1;
+                    } catch (e) {
+                        return false;
+                    }
+                };
+
+                scope.reverse = function () {
+                    try {
+                        return scope.tableSortExpression().indexOf('-' + scope.sortExpression()) > -1;
+                    } catch (e) {
+                        return false;
+                    }
+                };
+
+                scope.buildNewSortExpression = function () {
+                    var sortArray = [];
+                    if (angular.isArray(scope.fixedSortExpression())) {
+                        sortArray = sortArray.concat(scope.fixedSortExpression());
+                    } else if (scope.fixedSortExpression()) {
+                        sortArray.push(scope.fixedSortExpression());
+                    }
+                    sortArray.push((scope.sorted() && !scope.reverse() ? '-' : '') + scope.sortExpression());
+                    return sortArray;
+                };
             }
         };
     });

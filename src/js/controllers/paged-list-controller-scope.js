@@ -7,7 +7,7 @@
     PN.AngularDashboard.List.PagedListControllerScope = PN.AngularDashboard.List.ListControllerScope.extend({
         _$timeout: null,
 
-        pageSize: 20,
+        pageSize: 30,
         pageNumber: 1,
         pageCount: 1,
         maxPageLength: 11,
@@ -35,6 +35,14 @@
             });
         },
 
+        __sort: function (expression, reverse) {
+            this.sortExpression = expression;
+            this.sortReverse = reverse;
+            this.pageNumber = 1;
+            this.showLoading = true;
+            this._loadModels();
+        },
+
         _loadModels: function () {
             this.focusAddFormInput = false;
 
@@ -42,7 +50,14 @@
                 token = new Date().valueOf().toString();
 
             this._factory.latestToken = token;
-            this._factory.query({ token: token, search: this.search, pageNumber: this.pageNumber, pageSize: this.pageSize }, function (models, responseHeaders) {
+            this._factory.query({
+                token: token,
+                search: this.search,
+                pageNumber: this.pageNumber,
+                pageSize: this.pageSize,
+                sort: this.sortExpression,
+                reverse: this.sortReverse,
+            }, function (models, responseHeaders) {
                 var returnedToken = responseHeaders('token');
                 if (returnedToken !== that._factory.latestToken) {
                     return;
@@ -69,6 +84,7 @@
             this.performSearchTimeoutPromise = this._$timeout(function () {
                 that.performSearchTimeoutPromise = null;
                 that.pageNumber = 1;
+                that.showLoading = true;
                 that._loadModels();
             }, 500);
         }
