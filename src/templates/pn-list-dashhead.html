@@ -4,6 +4,8 @@
         <h2 class="dashhead-title text-uppercase">{{pnTitle}}</h2>
     </div>
     <div class="dashhead-toolbar pn-animate-fade" ng-hide="emptyList()">
+        <div class="dashhead-toolbar-item" ng-transclude>
+        </div>
         <div class="input-with-icon dashhead-toolbar-item">
             <input type="text" class="form-control input-block" placeholder="{{searchPlaceholder}}" ng-model="searchTerms" ng-keypress="onSearchKeypress($event)">
             <span class="icon icon-magnifying-glass"></span>

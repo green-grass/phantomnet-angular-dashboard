@@ -8,6 +8,7 @@
         return {
             restrict: 'EA',
             replace: true,
+            transclude: true,
             scope: {
                 pnTitle: '@',
                 subtitle: '@',

@@ -50,14 +50,7 @@
                 token = new Date().valueOf().toString();
 
             this._factory.latestToken = token;
-            this._factory.query({
-                token: token,
-                search: this.search,
-                pageNumber: this.pageNumber,
-                pageSize: this.pageSize,
-                sort: this.sortExpression,
-                reverse: this.sortReverse,
-            }, function (models, responseHeaders) {
+            this._factory.query(this._createQueryData(), function (models, responseHeaders) {
                 var returnedToken = responseHeaders('token');
                 if (returnedToken !== that._factory.latestToken) {
                     return;
@@ -73,6 +66,19 @@
                     that.focusAddFormInput = true;
                 }
             });
+        },
+
+        _createQueryData: function () {
+            var token = new Date().valueOf().toString();
+            this._factory.latestToken = token;
+            return {
+                token: token,
+                search: this.search,
+                pageNumber: this.pageNumber,
+                pageSize: this.pageSize,
+                sort: this.sortExpression,
+                reverse: this.sortReverse,
+            };
         },
 
         _performSearch: function (search) {

@@ -52,7 +52,7 @@
             this.clearErrors();
 
             var that = this,
-                newModel = new this._factory(model);
+                newModel = new this._factory(this._prepareAddModel(model));
 
             newModel.$save(function (respond) {
                 if (respond.Result.Succeeded) {
@@ -144,11 +144,9 @@
         _loadModels: function () {
             this.focusAddFormInput = false;
 
-            var that = this,
-                token = new Date().valueOf().toString();
+            var that = this;
 
-            this._factory.latestToken = token;
-            this._factory.query({ token: token }, function (models, responseHeaders) {
+            this._factory.query(this._createQueryData(), function (models, responseHeaders) {
                 var returnedToken = responseHeaders('token');
                 if (returnedToken !== that._factory.latestToken) {
                     return;
@@ -165,6 +163,14 @@
             });
         },
 
+        _createQueryData: function () {
+            var token = new Date().valueOf().toString();
+            this._factory.latestToken = token;
+            return {
+                token: token
+            };
+        },
+
         _performSearch: function (search) {
             this.searchFilter = search;
             this.filteredCount = this._$filter('search')(this.models, this.searchFilter).length;
@@ -172,6 +178,10 @@
 
         _resetNewModel: function () {
             this.newModel = {};
+        },
+
+        _prepareAddModel: function (model) {
+            return model;
         }
     });
 
