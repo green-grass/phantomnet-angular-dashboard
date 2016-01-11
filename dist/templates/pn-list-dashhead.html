@@ -3,16 +3,18 @@
         <h6 class="dashhead-subtitle">{{subtitle}}</h6>
         <h2 class="dashhead-title text-uppercase">{{pnTitle}}</h2>
     </div>
-    <div class="dashhead-toolbar pn-animate-fade" ng-hide="emptyList()">
+    <div class="dashhead-toolbar">
         <div class="dashhead-toolbar-item" ng-transclude>
         </div>
-        <div class="input-with-icon dashhead-toolbar-item">
-            <input type="text" class="form-control input-block" placeholder="{{searchPlaceholder}}" ng-model="searchTerms" ng-keypress="onSearchKeypress($event)">
-            <span class="icon icon-magnifying-glass"></span>
+        <div class="dashhead-toolbar-item pn-animate-width text-nowrap" ng-hide="emptyList()">
+            <div class="input-with-icon dashhead-toolbar-item" style="display: inline-block !important; float: none; position: relative; top: -12px;">
+                <input type="text" class="form-control input-block" placeholder="{{searchPlaceholder}}" ng-model="searchTerms" ng-keypress="onSearchKeypress($event)">
+                <span class="icon icon-magnifying-glass"></span>
+            </div>
+            <span class="dashhead-toolbar-divider hidden-xs" style="display: inline-block !important; float: none;"></span>
+            <button type="button" class="btn btn-primary-outline" ng-click="toggleAddForm()" style="display: inline-block !important; float: none; position: relative; top: -12px;">
+                <span class="icon icon-add-to-list"></span>
+            </button>
         </div>
-        <span class="dashhead-toolbar-divider hidden-xs"></span>
-        <button type="button" class="btn btn-primary-outline" ng-click="toggleAddForm()">
-            <span class="icon icon-add-to-list"></span>
-        </button>
     </div>
 </div>
