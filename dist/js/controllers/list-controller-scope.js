@@ -52,7 +52,7 @@
             this.clearErrors();
 
             var that = this,
-                newModel = new this._factory(this._prepareAddModel(model));
+                newModel = new this._factory(this._prepareModelForAdding(model));
 
             newModel.$save(function (respond) {
                 if (respond.Result.Succeeded) {
@@ -180,7 +180,7 @@
             this.newModel = {};
         },
 
-        _prepareAddModel: function (model) {
+        _prepareModelForAdding: function (model) {
             return model;
         }
     });
