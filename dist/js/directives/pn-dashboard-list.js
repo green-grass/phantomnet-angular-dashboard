@@ -46,6 +46,19 @@
         };
     });
 
+    module.directive('pnListMasterDetailsAddForm', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            transclude: true,
+            scope: {
+                emptyList: '&',
+                emptyListMessage: '@'
+            },
+            templateUrl: '/assets/templates/pn-list-master-details-add-form.html'
+        };
+    });
+
     module.directive('pnSearchResultCount', function () {
         return {
             restrict: 'EA',
@@ -243,6 +256,41 @@
             templateUrl: '/assets/templates/pn-flextable-checkbox-input.html'
         };
     });
+
+    module.directive('pnFlextableDateInput', ['$timeout', function ($timeout) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                inputClass: '@',
+                placeholder: '@',
+                ngModel: '=',
+                focusIf: '&'
+            },
+            templateUrl: '/assets/templates/pn-flextable-date-input.html',
+            link: function (scope, element) {
+                var input = $('input', element);
+                input.datepicker('setUTCDate', scope.ngModel);
+                input.datepicker('update');
+                input.datepicker()
+                     .on('changeDate', function (e) {
+                         if (input.datepicker('getUTCDate').toString() === scope.ngModel.toString()) {
+                             return;
+                         }
+                         $timeout(function () {
+                             scope.ngModel = input.datepicker('getUTCDate');
+                         });
+                     });
+                scope.$watch('ngModel', function () {
+                    if (input.datepicker('getUTCDate').toString() === scope.ngModel.toString()) {
+                        return;
+                    }
+                    input.datepicker('setUTCDate', scope.ngModel);
+                    input.datepicker('update');
+                });
+            }
+        };
+    }]);
 
     module.directive('pnFlextableSubmitReset', function () {
         return {
