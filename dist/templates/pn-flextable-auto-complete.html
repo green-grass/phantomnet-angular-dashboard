@@ -1,0 +1,13 @@
+<div class="flextable-item">
+    <ui-select ng-model="model.selected"
+               theme="bootstrap"
+               reset-search-input="false"
+               focus-on="{{focusOn}}">
+        <ui-select-match placeholder="{{placeholder}}">{{matchDisplay({selected: $select.selected})}}</ui-select-match>
+        <ui-select-choices repeat="item in items"
+                           refresh="refreshItems($select.search)"
+                           refresh-delay="0">
+            <div ng-transclude="child"></div>
+        </ui-select-choices>
+    </ui-select>
+</div>

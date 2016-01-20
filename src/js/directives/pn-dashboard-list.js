@@ -292,6 +292,68 @@
         };
     }]);
 
+    module.directive('pnFlextableAutoComplete', function () {
+        return {
+            restrict: 'EA',
+            require: 'ngModel',
+            replace: true,
+            transclude: true,
+            scope: {
+                placeholder: '@',
+                focusOn: '@',
+                matchDisplay: '&',
+                factory: '&',
+                minSearchLength: '&'
+            },
+            templateUrl: '/assets/templates/pn-flextable-auto-complete.html',
+            link: function (scope, element, attrs, ngModelCtrl) {
+                scope.items = [];
+                scope.model = { selected: null };
+
+                scope.refreshItems = function (search) {
+                    if (search.length < (scope.minSearchLength() || 0)) {
+                        this.items = [];
+                        return;
+                    }
+
+                    var that = this,
+                        factory = scope.factory(),
+                        token = new Date().valueOf().toString(),
+                        queryData = {
+                            token: token,
+                            search: search
+                        };
+                    factory.latestToken = token;
+
+                    return factory.query(queryData, function (models, responseHeaders) {
+                        var returnedToken = responseHeaders('token');
+                        if (returnedToken !== factory.latestToken) {
+                            return;
+                        }
+
+                        that.items = models;
+                    });
+                };
+
+                ngModelCtrl.$formatters.push(function (modelValue) {
+                    return modelValue;
+                });
+
+                ngModelCtrl.$parsers.push(function (viewValue) {
+                    return viewValue;
+                });
+
+                scope.$watch('model.selected', function () {
+                    ngModelCtrl.$setViewValue(scope.model.selected);
+                });
+
+                ngModelCtrl.$render = function () {
+                    scope.model.selected = ngModelCtrl.$viewValue;
+                };
+            }
+        };
+    });
+
     module.directive('pnFlextableSubmitReset', function () {
         return {
             restrict: 'EA',
