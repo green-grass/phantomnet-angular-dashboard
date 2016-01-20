@@ -32,6 +32,11 @@
     module.animation('.pn-animate-height', function () {
         return {
             addClass: function (element, className, done) {
+                if (element.is('.pn-animate-height-enable-xs') && findBootstrapBreakpoint() !== 'xs') {
+                    done();
+                    return;
+                }
+
                 element
                     .animate({
                         'opacity': 0,
@@ -46,6 +51,11 @@
             },
 
             removeClass: function (element, className, done) {
+                if (element.is('.pn-animate-height-enable-xs') && findBootstrapBreakpoint() !== 'xs') {
+                    done();
+                    return;
+                }
+
                 var opacity = element.css('opacity'),
                     height = element.height();
 
@@ -71,7 +81,19 @@
     module.animation('.pn-animate-width', function () {
         return {
             addClass: function (element, className, done) {
+                if (element.is('.pn-animate-width-disable-xs') && findBootstrapBreakpoint() === 'xs') {
+                    done();
+                    return;
+                }
+
+                var width = element.width(),
+                    wrapper = $('<div></div>').css('width', width);
+
                 element
+                    .wrapInner(wrapper)
+                    .css({
+                        'width': width
+                    })
                     .animate({
                         'opacity': 0,
                         'width': 0
@@ -80,15 +102,23 @@
                             'opacity': '',
                             'width': ''
                         });
+                        element.children().first().children().unwrap();
                         done();
                     });
             },
 
             removeClass: function (element, className, done) {
+                if (element.is('.pn-animate-width-disable-xs') && findBootstrapBreakpoint() === 'xs') {
+                    done();
+                    return;
+                }
+
                 var opacity = element.css('opacity'),
-                    width = element.width();
+                    width = element.width(),
+                    wrapper = $('<div></div>').css('width', width);
 
                 element
+                    .wrapInner(wrapper)
                     .css({
                         'opacity': 0,
                         'width': 0
@@ -101,6 +131,7 @@
                             'opacity': '',
                             'width': ''
                         });
+                        element.children().first().children().unwrap();
                         done();
                     });
             }
@@ -138,5 +169,22 @@
             }
         };
     });
+
+    function findBootstrapBreakpoint() {
+        var breakpoints = ['xs', 'sm', 'md', 'lg'];
+
+        var $el = $('<div>');
+        $el.appendTo($('body'));
+
+        for (var i = breakpoints.length - 1; i >= 0; i--) {
+            var breakpoint = breakpoints[i];
+
+            $el.addClass('hidden-' + breakpoint);
+            if ($el.is(':hidden')) {
+                $el.remove();
+                return breakpoint;
+            }
+        }
+    }
 
 })();

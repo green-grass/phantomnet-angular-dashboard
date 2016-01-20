@@ -6,13 +6,14 @@
     <div class="dashhead-toolbar">
         <div class="dashhead-toolbar-item" ng-transclude>
         </div>
-        <div class="dashhead-toolbar-item pn-animate-width text-nowrap" ng-hide="emptyList()">
-            <div class="input-with-icon dashhead-toolbar-item" style="display: inline-block !important; float: none; position: relative; top: -12px;">
+        <div class="m-b clearfix visible-xs"></div>
+        <div class="dashhead-toolbar-item pn-animate-width pn-animate-width-disable-xs pn-animate-height pn-animate-height-enable-xs" ng-hide="emptyList()">
+            <div class="input-with-icon dashhead-toolbar-item">
                 <input type="text" class="form-control input-block" placeholder="{{searchPlaceholder}}" ng-model="searchTerms" ng-keypress="onSearchKeypress($event)">
                 <span class="icon icon-magnifying-glass"></span>
             </div>
-            <span class="dashhead-toolbar-divider hidden-xs" style="display: inline-block !important; float: none;"></span>
-            <button type="button" class="btn btn-primary-outline" ng-click="toggleAddForm()" style="display: inline-block !important; float: none; position: relative; top: -12px;">
+            <span class="dashhead-toolbar-divider hidden-xs"></span>
+            <button type="button" class="btn btn-primary-outline" ng-click="toggleAddForm()">
                 <span class="icon icon-add-to-list"></span>
             </button>
         </div>
