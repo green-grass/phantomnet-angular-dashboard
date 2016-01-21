@@ -301,54 +301,80 @@
             scope: {
                 placeholder: '@',
                 focusOn: '@',
+                clearOn: '@',
                 matchDisplay: '&',
                 factory: '&',
-                minSearchLength: '&'
+                minSearchLength: '&',
+                createQueryData: '&'
             },
             templateUrl: '/assets/templates/pn-flextable-auto-complete.html',
-            link: function (scope, element, attrs, ngModelCtrl) {
-                scope.items = [];
-                scope.model = { selected: null };
+            compile: function (element, attrs) {
+                if (angular.isDefined(attrs.multiple)) {
+                    $('ui-select', element).attr('multiple', 'multiple');
+                } else {
+                    $('ui-select', element).attr('reset-search-input', 'false');
+                }
 
-                scope.refreshItems = function (search) {
-                    if (search.length < (scope.minSearchLength() || 0)) {
-                        this.items = [];
-                        return;
-                    }
+                return function (scope, element, attrs, ngModelCtrl) {
+                    scope.items = [];
+                    scope.model = { selected: null };
 
-                    var that = this,
-                        factory = scope.factory(),
-                        token = new Date().valueOf().toString(),
-                        queryData = {
-                            token: token,
-                            search: search
-                        };
-                    factory.latestToken = token;
+                    ngModelCtrl.$formatters.push(function (modelValue) {
+                        return modelValue;
+                    });
 
-                    return factory.query(queryData, function (models, responseHeaders) {
-                        var returnedToken = responseHeaders('token');
-                        if (returnedToken !== factory.latestToken) {
+                    ngModelCtrl.$parsers.push(function (viewValue) {
+                        return viewValue;
+                    });
+
+                    scope.$watch('model.selected', function () {
+                        ngModelCtrl.$setViewValue(scope.model.selected);
+                    });
+
+                    ngModelCtrl.$render = function () {
+                        scope.model.selected = ngModelCtrl.$viewValue;
+                    };
+
+                    scope.refreshItems = function (search) {
+                        if (search.length < (scope.minSearchLength() || 1)) {
+                            scope.items = [];
                             return;
                         }
 
-                        that.items = models;
-                    });
-                };
+                        var factory = scope.factory(),
+                            token = new Date().valueOf().toString(),
+                            queryData = scope.createQueryData({ token: token, search: search }) ||
+                                        { token: token, search: search };
+                        factory.latestToken = token;
 
-                ngModelCtrl.$formatters.push(function (modelValue) {
-                    return modelValue;
-                });
+                        return factory.query(queryData, function (models, responseHeaders) {
+                            var returnedToken = responseHeaders('token');
+                            if (returnedToken !== factory.latestToken) {
+                                return;
+                            }
 
-                ngModelCtrl.$parsers.push(function (viewValue) {
-                    return viewValue;
-                });
+                            if (angular.isDefined(attrs.multiple) && scope.model.selected && scope.model.selected.length) {
+                                for (var i = 0 ; i < scope.model.selected.length; i++) {
+                                    var selected = scope.model.selected[i];
+                                    for (var j = 0; j < models.length; j++) {
+                                        var current = models[j];
+                                        if (selected.Id === current.Id) {
+                                            models.splice(j, 1);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
 
-                scope.$watch('model.selected', function () {
-                    ngModelCtrl.$setViewValue(scope.model.selected);
-                });
+                            scope.items = models;
+                        });
+                    };
 
-                ngModelCtrl.$render = function () {
-                    scope.model.selected = ngModelCtrl.$viewValue;
+                    if (scope.clearOn) {
+                        scope.$on(scope.clearOn, function () {
+                            scope.items = [];
+                        });
+                    }
                 };
             }
         };
