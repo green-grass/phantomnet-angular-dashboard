@@ -1,6 +1,6 @@
 {
   "name": "phantomnet-angular-dashboard",
-  "version": "1.0.0-beta24",
+  "version": "1.0.0-beta25",
   "description": "AngularJS components for Bootstrap Dashboard theme",
   "main": "./dist/phantomnet-angular-dashboard.js",
   "authors": [
@@ -25,15 +25,15 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
-    "angular": "~1.4.8",
-    "angular-resource": "~1.4.8",
-    "angular-animate": "~1.4.8",
-    "angular-sanitize": "~1.4.8",
+    "angular": "~1.4.9",
+    "angular-resource": "~1.4.9",
+    "angular-animate": "~1.4.9",
+    "angular-sanitize": "~1.4.9",
     "angular-ui-select": "~0.13.2",
     "ng-focus-if": "~1.0.2",
     "phantomnet-inheritance": "~1.0.0-beta3",
-    "phantomnet-resource": "~1.0.0-beta6",
-    "phantomnet-search": "~1.0.0-beta5",
-    "phantomnet-locale": "~1.0.0-beta2"
+    "phantomnet-resource": "~1.0.0-beta7",
+    "phantomnet-search": "~1.0.0-beta6",
+    "phantomnet-locale": "~1.0.0-beta3"
   }
 }
