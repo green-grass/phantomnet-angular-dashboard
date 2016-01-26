@@ -181,13 +181,13 @@
     // Use this work around.
     // https://github.com/angular/angular.js/issues/7874#issuecomment-53450394
     module
-        .config(function ($provide) {
+        .config(['$provide', function ($provide) {
             $provide.decorator('ngTranscludeDirective', ['$delegate', function ($delegate) {
                 // Remove the original directive
                 $delegate.shift();
                 return $delegate;
             }]);
-        })
+        }])
         .directive('ngTransclude', function () {
             return {
                 restrict: 'EAC',
