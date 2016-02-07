@@ -1,6 +1,6 @@
 {
   "name": "phantomnet-angular-dashboard",
-  "version": "1.0.0-beta30",
+  "version": "1.0.0-beta31",
   "description": "AngularJS components for Bootstrap Dashboard theme",
   "main": "./dist/phantomnet-angular-dashboard.js",
   "authors": [
@@ -29,7 +29,7 @@
     "angular-resource": "~1.4.9",
     "angular-animate": "~1.4.9",
     "angular-sanitize": "~1.4.9",
-    "angular-ui-select": "~0.13.3",
+    "angular-ui-select": "~0.13.2",
     "ng-focus-if": "~1.0.4",
     "phantomnet-inheritance": "~1.0.0-beta3",
     "phantomnet-resource": "~1.0.0-beta8",
